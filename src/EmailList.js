@@ -11,12 +11,28 @@ import {
   LocalOffer,
 } from "@mui/icons-material";
 import { Checkbox, IconButton } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./EmailList.css";
 import EmailRow from "./EmailRow";
+import { db } from "./firebase";
 import Section from "./Section";
 
 function EmailList() {
+  const [emails, setEmails] = useState([]);
+
+  useEffect(() => {
+    db.collection("emails")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) =>
+        setEmails(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        )
+      );
+  }, []);
+
   return (
     <div className="emailList">
       <div className="emailList_settings">
@@ -53,18 +69,84 @@ function EmailList() {
         <Section Icon={LocalOffer} title="Promotions" color="green" />
       </div>
       <div className="emailList_list">
+        {emails.map(({ id, data: { to, subject, message, timestamp } }) => (
+          <EmailRow
+            id={id}
+            key={id}
+            title={to}
+            subject={subject}
+            description={message}
+            time={new Date(timestamp?.seconds * 1000).toUTCString()}
+          />
+        ))}
         <EmailRow
-          title="Twitch"
-          subject="Hey fellow streamer!!!"
-          description="This is a test"
+          title="Gmail"
+          subject="Hi from Gmail"
+          description="Hey...best of luck for the clone!!!"
           time="10pm"
         />
       </div>
       <div className="emailList_list">
         <EmailRow
-          title="Twitch"
-          subject="Hey fellow streamer!!!"
-          description="This is a test"
+          title="Gmail"
+          subject="Hi from Gmail"
+          description="Hey...best of luck for the clone!!!"
+          time="10pm"
+        />
+      </div>
+      <div className="emailList_list">
+        <EmailRow
+          title="Gmail"
+          subject="Hi from Gmail"
+          description="Hey...best of luck for the clone!!!"
+          time="10pm"
+        />
+      </div>
+      <div className="emailList_list">
+        <EmailRow
+          title="Gmail"
+          subject="Hi from Gmail"
+          description="Hey...best of luck for the clone!!!"
+          time="10pm"
+        />
+      </div>
+      <div className="emailList_list">
+        <EmailRow
+          title="Gmail"
+          subject="Hi from Gmail"
+          description="Hey...best of luck for the clone!!!"
+          time="10pm"
+        />
+      </div>
+      <div className="emailList_list">
+        <EmailRow
+          title="Gmail"
+          subject="Hi from Gmail"
+          description="Hey...best of luck for the clone!!!"
+          time="10pm"
+        />
+      </div>
+      <div className="emailList_list">
+        <EmailRow
+          title="Gmail"
+          subject="Hi from Gmail"
+          description="Hey...best of luck for the clone!!!"
+          time="10pm"
+        />
+      </div>
+      <div className="emailList_list">
+        <EmailRow
+          title="Gmail"
+          subject="Hi from Gmail"
+          description="Hey...best of luck for the clone!!!"
+          time="10pm"
+        />
+      </div>
+      <div className="emailList_list">
+        <EmailRow
+          title="Gmail"
+          subject="Hi from Gmail"
+          description="Hey...best of luck for the clone!!!"
           time="10pm"
         />
       </div>
