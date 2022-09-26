@@ -8,8 +8,20 @@ import {
   Notifications,
   Search,
 } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "./features/userSlice";
+import { auth } from "./firebase";
 
 function Header() {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  const signOut = () => {
+    auth.signOut().then(() => {
+      dispatch(logout());
+    });
+  };
+
   return (
     <div className="header">
       <div className="header_left">
@@ -17,7 +29,7 @@ function Header() {
           <Menu />
         </IconButton>
         <img
-          src="https://gagadget.com/media/cache/3b/04/3b04d8421ed6cbc77a6616f3b8973234.jpg"
+          src="https://static.dezeen.com/uploads/2020/10/gmail-google-logo-rebrand-workspace-design_dezeen_2364_col_0.jpg"
           alt=""
         />
       </div>
@@ -33,7 +45,7 @@ function Header() {
         <IconButton>
           <Notifications />
         </IconButton>
-        <Avatar />
+        <Avatar onClick={signOut} src={user?.photoUrl} />
       </div>
     </div>
   );
